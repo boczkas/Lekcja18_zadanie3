@@ -1,5 +1,6 @@
 package restauracja;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,15 +36,39 @@ public class Restauracja {
         );
 
 //        Przypisz stoliki do kelnerek
-
+        for (Kelnerka kelnerka : kelnerki) {
+            List<Stolik> stolikiKelnerki = new ArrayList<>();
+            for (Stolik stolik : stoliki) {
+                if (stolik.imieKelnerki.equals(kelnerka.imie)) {
+                    stolikiKelnerki.add(stolik);
+                }
+            }
+            this.kelnerkiZeStolikami.put(kelnerka, stolikiKelnerki);
+        }
     }
 
     public double pobierzCalkowityDochod(){
-        return 0;
+        double calkowityDochod = 0;
+
+        for(List<Stolik> stoliki : kelnerkiZeStolikami.values()) {
+            for (Stolik stolik : stoliki) {
+                calkowityDochod += stolik.cenaZamowien;
+            }
+        }
+
+        return calkowityDochod;
     }
 
     public double pobierzDochodKelnerki(String imie) {
-        return 0;
+        double dochod = 0;
+
+        List<Stolik> stolikiKelnerki = this.kelnerkiZeStolikami.get(new Kelnerka(imie));
+
+        for (Stolik stolik : stolikiKelnerki) {
+            dochod += stolik.cenaZamowien;
+        }
+
+        return dochod;
     }
 
 }
